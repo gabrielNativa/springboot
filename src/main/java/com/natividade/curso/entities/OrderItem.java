@@ -3,6 +3,7 @@ package com.natividade.curso.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.natividade.curso.entities.pk.OrdemItemPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -11,20 +12,20 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_ordem_item")
-public class OrdemItem implements Serializable{
+public class OrderItem implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrdemItemPK id;
+	private OrdemItemPK id = new OrdemItemPK();
 	
 	private Integer quantity;
 	private Double price;
 	
-	public OrdemItem(){
+	public OrderItem(){
 	}
 
-	public OrdemItem(Order order, Product product, Integer quantity, Double price) {
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
 		id.setProduct(product);
@@ -32,6 +33,7 @@ public class OrdemItem implements Serializable{
 		this.price = price;
 	}
 
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
@@ -75,7 +77,7 @@ public class OrdemItem implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrdemItem other = (OrdemItem) obj;
+		OrderItem other = (OrderItem) obj;
 		return Objects.equals(id, other.id);
 	}
 	
